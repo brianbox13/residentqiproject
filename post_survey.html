@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Post-Intervention Survey – Resident Workflow Preparedness</title>
+<style>
+  :root {
+    --navy:   #1B3A6B;
+    --accent: #2E75B6;
+    --lblue:  #D6E4F7;
+    --lgrey:  #F5F5F5;
+    --eblue:  #EEF4FB;
+    --subrow: #E8F0FB;
+    --text:   #1A1A1A;
+    --muted:  #555555;
+    --border: #BBBBBB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Calibri, 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: #f0f4f8;
+    padding: 24px 16px 48px;
+  }
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 2px 16px rgba(0,0,0,.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  .doc-header {
+    background: var(--navy);
+    padding: 18px 28px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 4px solid var(--accent);
+  }
+  .doc-header h1 { color:#fff; font-size:17px; font-weight:700; line-height:1.3; }
+  .doc-header .tag { color:#aac4e8; font-size:12px; white-space:nowrap; margin-left:16px; }
+
+  /* ── Title block ── */
+  .title-block { padding: 24px 28px 0; }
+  .title-block h2 { font-size:22px; font-weight:700; color:var(--navy); line-height:1.25; }
+  .title-block .subtitle { color:var(--muted); font-size:13px; margin-top:4px; }
+  .title-rule { height:3px; background:var(--accent); margin: 12px 28px; border-radius:2px; }
+  .intro-box {
+    margin: 0 28px 20px;
+    background: var(--eblue);
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-size:13px;
+    color:#333;
+    line-height:1.6;
+  }
+
+  /* ── Section banners ── */
+  .section-banner {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 8px 28px;
+    margin-top: 24px;
+    letter-spacing:.3px;
+  }
+  .section-body { padding: 16px 28px; }
+
+  /* ── Info table (Section A) ── */
+  .info-table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  .info-table th {
+    background: var(--lblue);
+    color: var(--navy);
+    font-weight:700;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    text-align:left;
+  }
+  .info-table td {
+    border: 1px solid var(--border);
+    padding: 7px 12px;
+    vertical-align: middle;
+  }
+  .info-table tr:nth-child(even) td { background: var(--lgrey); }
+  .info-table input[type="text"], .info-table select {
+    border: none;
+    border-bottom: 1.5px solid var(--accent);
+    background: transparent;
+    font-family: inherit;
+    font-size: 13.5px;
+    width: 100%;
+    padding: 2px 4px;
+    outline: none;
+    color: var(--text);
+  }
+  .info-table select { cursor:pointer; }
+
+  /* ── Instructions line ── */
+  .instructions { font-size:13px; margin-bottom:12px; line-height:1.5; color:#333; }
+  .instructions strong { color:var(--text); }
+
+  /* ── Likert table ── */
+  .likert-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .likert-table th {
+    background: var(--lblue);
+    color: var(--navy);
+    font-weight:700;
+    border: 1px solid var(--border);
+    padding: 8px 6px;
+    text-align:center;
+    vertical-align:middle;
+    line-height:1.3;
+  }
+  .likert-table th.stmt-hdr { text-align:left; padding-left:12px; }
+  .likert-table td {
+    border: 1px solid var(--border);
+    padding: 8px 6px;
+    vertical-align:middle;
+    text-align:center;
+  }
+  .likert-table td.stmt { text-align:left; padding:8px 12px; line-height:1.4; }
+  .likert-table tr:nth-child(even) td { background: var(--lgrey); }
+  .subrow td {
+    background: var(--subrow) !important;
+    color: var(--navy);
+    font-weight:700;
+    font-style:italic;
+    text-align:left !important;
+    padding: 7px 12px !important;
+    font-size:12.5px;
+  }
+  .likert-table input[type="radio"] {
+    width:18px; height:18px;
+    cursor:pointer;
+    accent-color: var(--accent);
+  }
+  .scale-note { font-size:11px; font-weight:400; color:#666; display:block; }
+
+  /* ── Checkbox grids ── */
+  .cb-grid { display:grid; gap:8px 12px; margin-top:8px; }
+  .cb-grid-2 { grid-template-columns: 1fr 1fr; }
+  .cb-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cb-item { display:flex; align-items:center; gap:8px; font-size:13.5px; line-height:1.4; }
+  .cb-item input[type="checkbox"] {
+    width:17px; height:17px; cursor:pointer; accent-color: var(--accent); flex-shrink:0;
+  }
+
+  /* ── Question labels ── */
+  .q-label { font-size:14px; margin: 18px 0 6px; line-height:1.4; }
+  .q-label .qn { font-weight:700; color:var(--navy); margin-right:4px; }
+  .q-label .qnote { font-style:italic; font-size:12px; color:#888; margin-left:6px; }
+
+  /* ── Free-text areas ── */
+  .free-text {
+    width:100%;
+    border: 1px solid var(--border);
+    border-radius:3px;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size:13.5px;
+    resize: vertical;
+    min-height: 64px;
+    outline:none;
+    color: var(--text);
+    margin-top:4px;
+    transition: border-color .2s;
+  }
+  .free-text:focus { border-color: var(--accent); }
+
+  /* ── Sub-heading ── */
+  .sub-heading {
+    font-weight:700;
+    color: var(--navy);
+    font-size:14px;
+    margin: 20px 0 8px;
+    padding-bottom:3px;
+    border-bottom: 2px solid var(--lblue);
+  }
+
+  /* ── Italic note ── */
+  .italic-note { font-style:italic; font-size:12.5px; color:var(--muted); margin-bottom:10px; }
+
+  /* ── Footer ── */
+  .doc-footer {
+    border-top: 1px solid #ccc;
+    padding: 10px 28px;
+    font-size:11.5px;
+    color:#888;
+    display:flex;
+    justify-content:space-between;
+    margin-top:32px;
+  }
+
+  /* ── Buttons ── */
+  .btn-row { padding: 20px 28px; display:flex; gap:12px; justify-content:flex-end; }
+  .btn {
+    padding: 9px 22px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    border: none;
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity:.85; }
+  .btn-primary { background: var(--navy); color:#fff; }
+  .btn-secondary { background: var(--lblue); color: var(--navy); }
+
+  @media print {
+    body { background:#fff; padding:0; }
+    .page { box-shadow:none; }
+    .btn-row { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="doc-header">
+    <h1>Resident Site Transition &amp; Workflow Preparedness Survey</h1>
+    <span class="tag">Post-Intervention</span>
+  </div>
+
+  <!-- Title block -->
+  <div class="title-block">
+    <h2>Resident Site Transition &amp; Workflow Preparedness Survey</h2>
+    <div class="subtitle">Post-Intervention &nbsp;·&nbsp; Radiation Oncology Residency &nbsp;·&nbsp; Quality Improvement Project</div>
+  </div>
+  <div class="title-rule"></div>
+  <div class="intro-box">
+    <div style="font-weight:700; font-size:14px; color:var(--navy); margin-bottom:8px;">&#128274; This survey is anonymous and voluntary. Participation is entirely optional, and you may stop at any time without consequence.</div>
+    This survey is part of a quality improvement initiative evaluating the impact of site-specific onboarding guides on resident preparedness, workflow efficiency, and transition experience. Please answer based on your experience after using the onboarding guide for this rotation.
+  </div>
+
+  <!-- SECTION A -->
+  <div class="section-banner">&nbsp; Section A: Rotation Information</div>
+  <div class="section-body">
+    <table class="info-table">
+      <thead><tr><th style="width:68%">Question</th><th>Response</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>PGY Level</td>
+          <td>
+            <select name="pgy">
+              <option value="">Select…</option>
+              <option>PGY-1</option><option>PGY-2</option><option>PGY-3</option>
+              <option>PGY-4</option><option>PGY-5</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Current Rotation Site</td>
+          <td>
+            <select name="site">
+              <option value="">Select…</option>
+              <option>Smith Clinic</option><option>VA</option><option>St. Luke's</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>How many times have you rotated at this site before?</td>
+          <td>
+            <select name="rotations">
+              <option value="">Select…</option>
+              <option>0</option><option>1</option><option>2</option><option>3+</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Which onboarding guide did you use for this rotation?</td>
+          <td>
+            <select name="guide">
+              <option value="">Select…</option>
+              <option>Smith Clinic Guide</option><option>VA Guide</option><option>St. Luke's Guide</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION B -->
+  <div class="section-banner">&nbsp; Section B: Impact of Onboarding Guide</div>
+  <div class="section-body">
+    <p class="instructions"><strong>Instructions:</strong> Rate your level of agreement with each statement based on your experience using the onboarding guide during this rotation.</p>
+    <table class="likert-table">
+      <thead>
+        <tr>
+          <th class="stmt-hdr" style="width:58%">Statement</th>
+          <th>1<span class="scale-note">Strongly<br>Disagree</span></th>
+          <th>2<span class="scale-note">Disagree</span></th>
+          <th>3<span class="scale-note">Neutral</span></th>
+          <th>4<span class="scale-note">Agree</span></th>
+          <th>5<span class="scale-note">Strongly<br>Agree</span></th>
+        </tr>
+      </thead>
+      <tbody id="likert-body"></tbody>
+    </table>
+  </div>
+
+  <!-- SECTION C -->
+  <div class="section-banner">&nbsp; Section C: Time to Operational Comfort</div>
+  <div class="section-body">
+    <div class="q-label"><span class="qn">1.</span> After using the onboarding guide, how many days did it take you to feel operationally comfortable at this site?</div>
+    <div class="cb-grid cb-grid-2" style="margin-top:10px">
+      <label class="cb-item"><input type="radio" name="c1" value="0-1"> 0–1 days</label>
+      <label class="cb-item"><input type="radio" name="c1" value="2-3"> 2–3 days</label>
+      <label class="cb-item"><input type="radio" name="c1" value="4-5"> 4–5 days</label>
+      <label class="cb-item"><input type="radio" name="c1" value="5+"> More than 5 days</label>
+    </div>
+  </div>
+
+  <!-- SECTION D -->
+  <div class="section-banner">&nbsp; Section D: Balancing Measures</div>
+  <div class="section-body">
+    <p class="italic-note">Please indicate whether you experienced any of the following unintended effects:</p>
+    <div class="cb-grid cb-grid-2">
+      <label class="cb-item"><input type="checkbox" name="d" value="too_much"> The guide contained too much information</label>
+      <label class="cb-item"><input type="checkbox" name="d" value="hard_nav"> The guide was difficult to navigate</label>
+      <label class="cb-item"><input type="checkbox" name="d" value="outdated"> Some information appeared outdated or inaccurate</label>
+      <label class="cb-item"><input type="checkbox" name="d" value="workload"> The guide increased workload rather than improving efficiency</label>
+      <label class="cb-item"><input type="checkbox" name="d" value="not_used"> I did not use the guide</label>
+      <label class="cb-item"><input type="checkbox" name="d" value="no_issues"> No major issues identified</label>
+    </div>
+  </div>
+
+  <!-- SECTION E -->
+  <div class="section-banner">&nbsp; Section E: Free-Text Feedback</div>
+  <div class="section-body">
+    <p class="italic-note">Your detailed responses directly inform future versions of the onboarding guide.</p>
+
+    <div class="q-label"><span class="qn">1.</span> What part of the guide was most helpful?</div>
+    <textarea class="free-text" name="e1" rows="3"></textarea>
+
+    <div class="q-label"><span class="qn">2.</span> What important information was missing from the guide?</div>
+    <textarea class="free-text" name="e2" rows="3"></textarea>
+
+    <div class="q-label"><span class="qn">3.</span> What should be simplified, condensed, or removed?</div>
+    <textarea class="free-text" name="e3" rows="3"></textarea>
+
+    <div class="q-label"><span class="qn">4.</span> Were any sections inaccurate or outdated? If so, which ones?</div>
+    <textarea class="free-text" name="e4" rows="3"></textarea>
+
+    <div class="q-label"><span class="qn">5.</span> How does your experience at this site compare to previous rotations before the guide existed?</div>
+    <textarea class="free-text" name="e5" rows="3"></textarea>
+
+    <div class="sub-heading" style="margin-top:24px">Additional Comments or Suggestions</div>
+    <textarea class="free-text" name="comments" rows="4"></textarea>
+  </div>
+
+  <!-- Footer -->
+  <div class="doc-footer">
+    <span>Anonymous &amp; Confidential &nbsp;|&nbsp; Radiation Oncology QI Project</span>
+    <span style="font-style:italic">Thank you for completing this survey.</span>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="window.print()">🖨 Print / Save as PDF</button>
+    <button class="btn btn-primary" onclick="submitForm()">✓ Submit Survey</button>
+  </div>
+
+</div>
+
+<script>
+const sections = [
+  {
+    subheader: "B1: Access &amp; Use",
+    rows: [
+      "I received the onboarding guide before starting the rotation.",
+      "I reviewed the guide during the first week of rotation.",
+    ]
+  },
+  {
+    subheader: "B2: Impact on Preparedness &amp; Confidence",
+    rows: [
+      "The guide improved my preparedness before starting at the site.",
+      "The guide improved my confidence navigating site-specific workflows.",
+      "The guide reduced stress during site transition.",
+      "The guide reduced time spent figuring out logistics and workflows.",
+    ]
+  },
+  {
+    subheader: "B3: Content Quality",
+    rows: [
+      "The guide helped clarify documentation expectations.",
+      "The guide helped me identify the right contacts for workflow issues.",
+      "The guide was concise and easy to use.",
+      "The guide contained accurate and up-to-date information.",
+      "The onboarding guide should continue to be used for future residents.",
+    ]
+  }
+];
+
+const tbody = document.getElementById('likert-body');
+let globalIdx = 0;
+sections.forEach(sec => {
+  // sub-header row
+  const sh = document.createElement('tr');
+  sh.className = 'subrow';
+  sh.innerHTML = `<td colspan="6">${sec.subheader}</td>`;
+  tbody.appendChild(sh);
+  let localIdx = 0;
+  sec.rows.forEach(q => {
+    const shade = localIdx % 2 === 1;
+    const bg = shade ? 'background:#F5F5F5' : '';
+    const tr = document.createElement('tr');
+    const qname = `b_${globalIdx}`;
+    tr.innerHTML = `
+      <td class="stmt" style="${bg}">${q}</td>
+      ${[1,2,3,4,5].map(v => `<td style="${bg}"><input type="radio" name="${qname}" value="${v}" aria-label="${v}"></td>`).join('')}
+    `;
+    tbody.appendChild(tr);
+    localIdx++;
+    globalIdx++;
+  });
+});
+
+async function submitForm() {
+  const radios = {};
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    if (!radios[r.name]) radios[r.name] = false;
+    if (r.checked) radios[r.name] = true;
+  });
+  const unanswered = Object.entries(radios).filter(([,v]) => !v).map(([k]) => k);
+  if (unanswered.length > 0) {
+    alert(`Please answer all rating questions before submitting.\n(${unanswered.length} question(s) remaining)`);
+    return;
+  }
+
+  const formData = new FormData();
+
+  document.querySelectorAll('select, textarea, input[type="text"]').forEach(el => {
+    if (el.name && el.value) formData.append(el.name, el.value);
+  });
+
+  document.querySelectorAll('input[type="radio"]:checked').forEach(el => {
+    formData.append(el.name, el.value);
+  });
+
+  const checkedBoxes = [];
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(el => {
+    checkedBoxes.push(el.value);
+  });
+  if (checkedBoxes.length) formData.append('d_balancing_measures', checkedBoxes.join(', '));
+
+  try {
+    const response = await fetch('https://formspree.io/f/xeedgnbw', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      document.querySelector('.page').innerHTML = `
+        <div style="text-align:center; padding:60px 28px;">
+          <div style="font-size:48px; margin-bottom:16px;">✅</div>
+          <h2 style="color:#1B3A6B; font-size:22px; margin-bottom:12px;">Survey Submitted!</h2>
+          <p style="color:#555; font-size:14px; line-height:1.6;">Thank you for completing this survey.<br>Your anonymous response has been recorded.</p>
+        </div>`;
+    } else {
+      alert('There was a problem submitting the survey. Please try again.');
+    }
+  } catch (err) {
+    alert('Network error. Please check your connection and try again.');
+  }
+}
+</script>
+</body>
+</html>
